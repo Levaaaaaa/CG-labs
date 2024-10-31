@@ -3,7 +3,7 @@ from tkinter import colorchooser
 import colorsys as cs
 
 RGB_SCALE=255
-CMYK_SCALE=100
+CMYK_SCALE=1
 
 def cmyk_to_rgb(c, m,y,k):
     c1 = c / CMYK_SCALE
@@ -52,9 +52,9 @@ def hsl_to_rgb(h, l, s):
         return (0, 0, 0)
 '''
 def rgb_to_hsl(r, g, b):
-    r /= 255
-    g /= 255
-    b /= 255
+    r = float(r) / 255
+    g = float(g) / 255
+    b = float(b) / 255
     max_ = max([r, g, b])
     min_ = min([r, g, b])
 
@@ -164,10 +164,10 @@ def on_spinbox_change_for_bind(event):
 
 def on_cmyk_spinbox_change():
     try:
-        c = int(c_spinbox.get())
-        m = int(m_spinbox.get())
-        y = int(y_spinbox.get())
-        k = int(k_spinbox.get())
+        c = float(c_spinbox.get())
+        m = float(m_spinbox.get())
+        y = float(y_spinbox.get())
+        k = float(k_spinbox.get())
         r, g, b = cmyk_to_rgb(c, m, y, k)
         update_colors(r, g, b)
     except ValueError:
@@ -247,11 +247,10 @@ cmyk_label.pack(pady=5)
 hsl_label = tk.Label(root, text="HSL: ")
 hsl_label.pack(pady=5)
 
-
 # Связывание событий изменения текста в spinbox
-r_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
-g_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
-b_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
+#r_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
+#g_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
+#b_spinbox.bind("<KeyRelease>", on_spinbox_change_for_bind)
 
 
 #CMYK
@@ -265,22 +264,24 @@ tk.Label(cmyk_frame, text="Y:").grid(row=0, column=2)
 tk.Label(cmyk_frame, text="K:").grid(row=0, column=3)
 
 #CMYK spinboxes
-c_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=100, increment=1, command=on_cmyk_spinbox_change)
+c_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=1, increment=0.01) #command=on_cmyk_spinbox_change)
 c_spinbox.grid(row=1, column=0)
 
-m_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=100, increment=1, command=on_cmyk_spinbox_change)
+m_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=1, increment=0.01) #command=on_cmyk_spinbox_change)
 m_spinbox.grid(row=1, column=1)
 
-y_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=100, increment=1, command=on_cmyk_spinbox_change)
+y_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=1, increment=0.01) #command=on_cmyk_spinbox_change)
 y_spinbox.grid(row=1, column=2)
 
-k_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=100, increment=1, command=on_cmyk_spinbox_change)
+k_spinbox = tk.Spinbox(cmyk_frame, from_=0, to=1, increment=0.01) #command=on_cmyk_spinbox_change)
 k_spinbox.grid(row=1, column=3)
 
-c_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
-m_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
-y_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
-k_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
+cmyk_upd_button = tk.Button(cmyk_frame, text="Update", command=on_cmyk_spinbox_change)
+cmyk_upd_button.grid(row=2)
+#c_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
+#m_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
+#y_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
+#k_spinbox.bind("<KeyRelease>", on_cmyk_spinbox_change_for_bind)
 
 #HSL
 
